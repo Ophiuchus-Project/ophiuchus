@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'">
+<title>Ophiuchus: who owns US healthcare facilities</title>
+<link rel="preload" href="data/index.json" as="fetch" crossorigin>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+  <h1><a href="#" class="home">Ophiuchus</a></h1>
+  <p class="lede">Who owns and runs Medicare-enrolled hospitals, nursing homes, hospices, home health agencies and clinics in the United States, and which of them have federal enforcement records. Every line comes from a public government record and links to its source dataset.</p>
+  <p class="meta" id="meta">Loading data version…</p>
+  <details class="sources" id="sources-box"><summary>Sources and dates</summary><ul id="sources-list"></ul></details>
+</header>
+
+<nav aria-label="Sections">
+  <a href="#">Search</a>
+  <a href="#states">By state</a>
+  <a href="#about">How to read this</a>
+  <a href="#corrections">Corrections and replies</a>
+</nav>
+
+<main id="main" tabindex="-1">
+  <section id="search-box" aria-label="Search">
+    <form id="search-form" role="search">
+      <label for="q">Search a facility, an owner organisation, or a person CMS lists as an owner or officer</label>
+      <input id="q" type="search" autocomplete="off" placeholder="Any distinctive word of the name, at least three letters">
+    </form>
+    <p id="rcount" role="status" class="hint"></p>
+    <div id="results"></div>
+  </section>
+
+  <section id="view"></section>
+
+  <section id="about" class="text">
+    <h2>How to read this</h2>
+    <h3>What is here</h3>
+    <ul>
+      <li><strong>Facilities</strong>: every hospital, skilled nursing facility, hospice, home health agency, rural health clinic and federally qualified health center in the CMS enrollment files, with the address CMS lists.</li>
+      <li><strong>Owners and officers</strong>: the organisations and individuals CMS lists for each facility in its All Owners files, with their role, share and start date as CMS records them. Labels such as "private equity company", "REIT" or "chain home office" are how the facility's CMS enrollment filing describes that owner.</li>
+      <li><strong>Enforcement records</strong>: HHS-OIG exclusions linked by the facility's NPI (and only when the business name and state on the exclusion agree with CMS), and CMS nursing-home fines, payment denials and harm-level citations linked by the facility's CMS certification number. Nothing is linked by name alone.</li>
+    </ul>
+    <h3>Who is named</h3>
+    <p>Organisations are named. Individuals are named only in a role CMS lists them in as an owner, partner, officer, director, trustee, governing-body member, or holder of operational or managerial control, and only with what CMS lists for that role. Managing employees, individual lenders and other individuals CMS lists are counted, not named. Trusts and estates that appear to belong to private persons are counted, without names, shares or identifiers. No address of any owner, organisation or person is shown. Where an individual owns a home health agency, hospice or rural health clinic, only the facility's city, state and ZIP code are shown, because such a facility can be run from a home.</p>
+    <h3>How to read shares and dates</h3>
+    <p>Shares are shown as each CMS enrollment filing reports them, only for ownership and partnership roles. CMS notes that shares for one facility can add up to more than 100% because filings differ or contain errors, and one owner can be listed under two overlapping roles (for example "5% or greater direct ownership interest" and "direct ownership interest"). No totals are calculated here. Start dates in the future, or before 1900, are shown as they are recorded and marked; they are not treated as current.</p>
+    <h3>How enforcement records are worded</h3>
+    <p>Each record shows its own stage in fixed words, its dates, the body that issued it, CMS's own data date and the date we read the file:</p>
+    <ul>
+      <li><strong>fined</strong>, <strong>payment denied</strong>, <strong>cited: harm-level deficiency</strong> (CMS nursing-home records; a citation is harm-level at scope and severity G or above; J, K and L are immediate jeopardy).</li>
+      <li><strong>excluded</strong> (HHS-OIG, with the section of law and the start date). Exclusions can be limited in scope, waived or later lifted.</li>
+    </ul>
+    <p>A record is never described more strongly than it reads. Ownership is a relationship between records: an owner's page lists the facilities CMS links to it and says which of those facilities carry their own records. It does not say the owner was fined or excluded.</p>
+    <h3>What this does not show</h3>
+    <ul>
+      <li>CMS nursing-home penalty and citation files cover nursing homes only, over a rolling window of about three years. Hospitals, hospices, home health agencies and clinics are checked against HHS-OIG exclusions only. A facility with no record here may have records elsewhere.</li>
+      <li>Individuals on the HHS-OIG exclusion list share no identifier with the CMS owner files, so they are not linked to facilities here.</li>
+      <li>CMS lists current owners. Past owners are not shown.</li>
+      <li><span id="unmatched"></span></li>
+    </ul>
+    <p>Records refresh weekly. A record that changes at its source changes here at the next refresh.</p>
+  </section>
+
+  <section id="corrections" class="text">
+    <h2>Corrections and replies</h2>
+    <p>Write to <a id="contact" href="#corrections">the project address</a>. No account or personal details are needed, and we never publish who reported.</p>
+    <ul>
+      <li><strong>Corrections.</strong> A line that does not match its cited record, a misread record, an outdated record shown as current, a link the records do not support, or a stage or date shown wrongly. Use "Correct or reply" next to the line so the report names it. We check it against the cited record within 7 days and correct it, add a note, or reply with the record that supports it. Corrections show as a dated note and in the change log below; nothing is changed silently.</li>
+      <li><strong>Replies.</strong> Any organisation named here, and any individual named in a CMS-listed role, may send a reply. A reply that adds context is shown under the entry, in full up to 150 words, dated and attributed. A reply disputing facts is handled as a correction.</li>
+      <li>An accurate statement of an official record is not removed because its subject objects; its description is corrected, context added, or a later change in the record noted.</li>
+    </ul>
+    <div id="changelog"></div>
+  </section>
+</main>
+
+<footer>
+  <p>Sources: Centers for Medicare &amp; Medicaid Services (enrollment and All Owners files; nursing-home penalties and health citations) and the HHS Office of Inspector General (List of Excluded Individuals/Entities). US government works, public domain. Part of Ariadne's Clew.</p>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>
