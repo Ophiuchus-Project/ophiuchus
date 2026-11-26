@@ -2,7 +2,9 @@
 "use strict";
 const D = "data/";
 const TYPES = {snf: "Skilled nursing facility", hha: "Home health agency", fqhc: "Federally qualified health center",
-  hospital: "Hospital", hospice: "Hospice", rhc: "Rural health clinic"};
+  hospital: "Hospital", hospice: "Hospice", rhc: "Rural health clinic",
+  // named by the CMS nursing-home penalty or citation files but in no CMS enrollment file read here
+  nursing_home: "Nursing facility"};
 const PLURAL = {hha: "home health agencies", fqhc: "federally qualified health centers", hospital: "hospitals", hospice: "hospices", rhc: "rural health clinics"};
 const CARE_COMPARE = {snf: "nursing-home", hospital: "hospital", hha: "home-health", hospice: "hospice"};
 const OWNERSHIP = {P: "For-profit (proprietary)", N: "Nonprofit", D: "CMS ownership code D (not defined in the CMS data dictionary)"};
@@ -128,6 +130,8 @@ function enforcementText(e) {
 }
 
 function coverage(ft) {
+  if (ft === "nursing_home")      // no enrollment record, so no NPI to check exclusions by
+    return "Checked: CMS nursing-home penalties and health citations (about the last three years). This facility is named by those files but is not in the CMS enrollment files read here, so it has no NPI to check against HHS-OIG exclusions.";
   return ft === "snf"
     ? "Checked: HHS-OIG exclusions (by NPI) and CMS nursing-home penalties and health citations (about the last three years)."
     : `Checked: HHS-OIG exclusions (by NPI) only. CMS nursing-home penalty and citation files do not cover ${esc(PLURAL[ft] || "this type of facility")}.`;
@@ -141,6 +145,8 @@ function enforcementSection(f) {
 }
 
 function ownersSection(f) {
+  if (!f.o.length && f.ft === "nursing_home")   // naming the All Owners file as its source would be wrong: it is not in it
+    return `<p class="none">No CMS ownership record: this facility is named by the CMS nursing-home penalty and citation files, not by the CMS enrollment and All Owners files this page reads for owners.</p>`;
   const byGroup = {};
   for (const l of f.o) { const g = IX.role_group[l[3]]; (byGroup[g] = byGroup[g] || []).push(l); }
   const srcs = [...new Set(f.o.map(l => l[8]))];
